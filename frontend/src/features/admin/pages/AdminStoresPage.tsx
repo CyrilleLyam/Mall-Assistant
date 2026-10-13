@@ -1,12 +1,11 @@
 import { Plus, Store as StoreIcon } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { EmptyState, ErrorState, LoadingState } from '@/shared/components/PageState'
 import { PaginationControls } from '@/shared/components/PaginationControls'
 import { Badge } from '@/shared/components/ui/badge'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { Card } from '@/shared/components/ui/card'
 import {
   Table,
@@ -41,12 +40,10 @@ export function AdminStoresPage() {
   )
 
   const addButton = (
-    <Button asChild>
-      <Link to="/admin/stores/new">
-        <Plus />
-        {t('admin.addStore')}
-      </Link>
-    </Button>
+    <LinkButton to="/admin/stores/new">
+      <Plus />
+      {t('admin.addStore')}
+    </LinkButton>
   )
 
   return (

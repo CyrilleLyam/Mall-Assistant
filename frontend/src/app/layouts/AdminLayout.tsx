@@ -1,9 +1,10 @@
 import { ExternalLink, LogOut } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link, Outlet } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { useAuth } from '@/features/auth'
 import { LanguageSwitcher } from '@/features/language'
 import { Brand } from '@/shared/components/Brand'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { Button } from '@/shared/components/ui/button'
 import { AdminNav } from './AdminNav'
 
@@ -22,12 +23,10 @@ export function AdminLayout() {
           <div className="px-1 pb-1">
             <LanguageSwitcher />
           </div>
-          <Button asChild variant="ghost" size="sm" className="w-full justify-start">
-            <Link to="/stores">
-              <ExternalLink />
-              {t('admin.viewSite')}
-            </Link>
-          </Button>
+          <LinkButton variant="ghost" size="sm" className="w-full justify-start" to="/stores">
+            <ExternalLink />
+            {t('admin.viewSite')}
+          </LinkButton>
           <Button variant="ghost" size="sm" className="w-full justify-start" onClick={logout}>
             <LogOut />
             {t('nav.logout')}

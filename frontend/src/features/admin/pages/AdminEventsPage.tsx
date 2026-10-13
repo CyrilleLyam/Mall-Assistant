@@ -1,11 +1,10 @@
 import { CalendarDays, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { EmptyState, ErrorState, LoadingState } from '@/shared/components/PageState'
 import { PaginationControls } from '@/shared/components/PaginationControls'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { Card } from '@/shared/components/ui/card'
 import {
   Table,
@@ -35,12 +34,10 @@ export function AdminEventsPage() {
   useClampPage(page, events.data?.pagination.totalPages, setPage)
 
   const addButton = (
-    <Button asChild>
-      <Link to="/admin/events/new">
-        <Plus />
-        {t('admin.addEvent')}
-      </Link>
-    </Button>
+    <LinkButton to="/admin/events/new">
+      <Plus />
+      {t('admin.addEvent')}
+    </LinkButton>
   )
 
   return (

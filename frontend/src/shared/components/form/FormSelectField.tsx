@@ -38,7 +38,11 @@ export function FormSelectField<T extends FieldValues>({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel htmlFor={name}>{label}</FieldLabel>
-          <Select value={field.value || undefined} onValueChange={field.onChange}>
+          <Select
+            value={field.value || null}
+            items={options}
+            onValueChange={(value) => field.onChange(value ?? '')}
+          >
             <SelectTrigger id={name} className="w-full" aria-invalid={fieldState.invalid}>
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>

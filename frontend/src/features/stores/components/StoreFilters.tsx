@@ -39,6 +39,17 @@ export function StoreFilters({
 }: StoreFiltersProps) {
   const { t } = useTranslation()
   const localized = useLocalized()
+  const categoryItems = [
+    { value: ALL, label: t('stores.allCategories') },
+    ...categories.map((category) => ({
+      value: category.id,
+      label: localized(category.nameEn, category.nameKm),
+    })),
+  ]
+  const floorItems = [
+    { value: ALL, label: t('stores.allFloors') },
+    ...floors.map((floor) => ({ value: String(floor), label: `${t('stores.floor')} ${floor}` })),
+  ]
   const hasFilters = values.search !== '' || values.categoryId !== '' || values.floor !== ''
 
   return (
@@ -63,7 +74,10 @@ export function StoreFilters({
       <div className="flex flex-wrap items-center gap-2">
         <Select
           value={values.categoryId || ALL}
-          onValueChange={(value) => onChange({ ...values, categoryId: value === ALL ? '' : value })}
+          items={categoryItems}
+          onValueChange={(value) =>
+            onChange({ ...values, categoryId: !value || value === ALL ? '' : value })
+          }
         >
           <SelectTrigger aria-label={t('stores.category')} className="h-9 w-auto min-w-40 bg-background">
             <SelectValue />
@@ -79,7 +93,8 @@ export function StoreFilters({
         </Select>
         <Select
           value={values.floor || ALL}
-          onValueChange={(value) => onChange({ ...values, floor: value === ALL ? '' : value })}
+          items={floorItems}
+          onValueChange={(value) => onChange({ ...values, floor: !value || value === ALL ? '' : value })}
         >
           <SelectTrigger aria-label={t('stores.floor')} className="h-9 w-auto min-w-36 bg-background">
             <SelectValue />

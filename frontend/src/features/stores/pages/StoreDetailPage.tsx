@@ -1,9 +1,9 @@
 import { ArrowLeft, Clock, MapPin } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { ErrorState, LoadingState } from '@/shared/components/PageState'
 import { Badge } from '@/shared/components/ui/badge'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { useLocalized } from '@/shared/hooks/useLocalized'
 import { cn } from '@/shared/lib/utils'
@@ -28,12 +28,10 @@ export function StoreDetailPage() {
 
   return (
     <article className="space-y-6">
-      <Button asChild variant="ghost" size="sm">
-        <Link to="/stores">
-          <ArrowLeft />
-          {t('stores.back')}
-        </Link>
-      </Button>
+      <LinkButton variant="ghost" size="sm" to="/stores">
+        <ArrowLeft />
+        {t('stores.back')}
+      </LinkButton>
 
       <section className="relative overflow-hidden rounded-3xl border bg-gradient-to-br from-primary/15 via-primary/5 to-background p-6 sm:p-10">
         <div className="pointer-events-none absolute -top-20 -right-16 size-72 rounded-full bg-primary/15 blur-3xl" />

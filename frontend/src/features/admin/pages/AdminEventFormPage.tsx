@@ -1,11 +1,11 @@
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { apiErrorMessages } from '@/shared/api/http-client'
 import { ErrorState, LoadingState } from '@/shared/components/PageState'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import {
   EMPTY_EVENT_FORM,
   EventForm,
@@ -55,12 +55,10 @@ export function AdminEventFormPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-6">
-      <Button asChild variant="ghost" size="sm">
-        <Link to="/admin/events">
-          <ArrowLeft />
-          {t('admin.backToEvents')}
-        </Link>
-      </Button>
+      <LinkButton variant="ghost" size="sm" to="/admin/events">
+        <ArrowLeft />
+        {t('admin.backToEvents')}
+      </LinkButton>
       <PageHeader
         title={isEdit ? t('admin.editEvent') : t('admin.addEvent')}
         description={isEdit ? t('admin.editEventHint') : t('admin.addEventHint')}

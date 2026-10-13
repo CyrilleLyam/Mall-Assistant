@@ -4,7 +4,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import { ChatWidget } from '@/features/chat'
 import { LanguageSwitcher } from '@/features/language'
 import { Brand } from '@/shared/components/Brand'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { cn } from '@/shared/lib/utils'
 
 const CURRENT_YEAR = new Date().getFullYear()
@@ -34,12 +34,10 @@ export function PublicLayout() {
             </NavLink>
             <span className="mx-1 hidden h-5 w-px bg-border sm:block" />
             <LanguageSwitcher />
-            <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex">
-              <Link to="/admin">
-                <LockKeyhole />
-                {t('nav.staff')}
-              </Link>
-            </Button>
+            <LinkButton variant="outline" size="sm" className="hidden sm:inline-flex" to="/admin">
+              <LockKeyhole />
+              {t('nav.staff')}
+            </LinkButton>
           </nav>
         </div>
       </header>

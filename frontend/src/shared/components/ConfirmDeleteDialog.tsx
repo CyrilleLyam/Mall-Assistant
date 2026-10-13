@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   AlertDialog,
@@ -13,7 +13,7 @@ import {
 
 interface ConfirmDeleteDialogProps {
   onConfirm: () => void
-  children: ReactNode
+  children: ReactElement
 }
 
 export function ConfirmDeleteDialog({ onConfirm, children }: ConfirmDeleteDialogProps) {
@@ -21,7 +21,7 @@ export function ConfirmDeleteDialog({ onConfirm, children }: ConfirmDeleteDialog
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+      <AlertDialogTrigger render={children} />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t('admin.confirmDelete')}</AlertDialogTitle>

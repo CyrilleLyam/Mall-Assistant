@@ -1,7 +1,7 @@
 import { Pencil, Trash2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { ConfirmDeleteDialog } from '@/shared/components/ConfirmDeleteDialog'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { Button } from '@/shared/components/ui/button'
 
 interface RowActionsProps {
@@ -14,11 +14,9 @@ export function RowActions({ editTo, onDelete }: RowActionsProps) {
 
   return (
     <div className="flex justify-end gap-1">
-      <Button asChild variant="ghost" size="icon-sm">
-        <Link to={editTo} aria-label={t('admin.edit')} title={t('admin.edit')}>
-          <Pencil />
-        </Link>
-      </Button>
+      <LinkButton variant="ghost" size="icon-sm" to={editTo} aria-label={t('admin.edit')} title={t('admin.edit')}>
+        <Pencil />
+      </LinkButton>
       <ConfirmDeleteDialog onConfirm={onDelete}>
         <Button
           variant="ghost"

@@ -11,12 +11,11 @@ export function LanguageSwitcher() {
 
   return (
     <ToggleGroup
-      type="single"
       variant="outline"
       size="sm"
       aria-label="Language"
-      value={i18n.resolvedLanguage}
-      onValueChange={(code) => {
+      value={i18n.resolvedLanguage ? [i18n.resolvedLanguage] : []}
+      onValueChange={([code]) => {
         if (code) void i18n.changeLanguage(code)
       }}
     >

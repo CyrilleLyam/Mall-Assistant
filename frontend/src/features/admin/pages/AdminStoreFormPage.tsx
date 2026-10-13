@@ -1,11 +1,11 @@
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { apiErrorMessages } from '@/shared/api/http-client'
 import { ErrorState, LoadingState } from '@/shared/components/PageState'
-import { Button } from '@/shared/components/ui/button'
+import { LinkButton } from '@/shared/components/LinkButton'
 import { useCategories, useStore } from '../../stores'
 import {
   EMPTY_STORE_FORM,
@@ -56,12 +56,10 @@ export function AdminStoreFormPage() {
 
   return (
     <section className="mx-auto max-w-3xl space-y-6">
-      <Button asChild variant="ghost" size="sm">
-        <Link to="/admin/stores">
-          <ArrowLeft />
-          {t('admin.backToStores')}
-        </Link>
-      </Button>
+      <LinkButton variant="ghost" size="sm" to="/admin/stores">
+        <ArrowLeft />
+        {t('admin.backToStores')}
+      </LinkButton>
       <PageHeader
         title={isEdit ? t('admin.editStore') : t('admin.addStore')}
         description={isEdit ? t('admin.editStoreHint') : t('admin.addStoreHint')}
