@@ -1,0 +1,77 @@
+{
+  "app": {
+    "name": "Mall Assistant"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Please try again."
+  },
+  "nav": {
+    "stores": "Stores",
+    "events": "Events",
+    "staff": "Staff",
+    "analytics": "Analytics",
+    "logout": "Log out"
+  },
+  "stores": {
+    "title": "Find a store",
+    "searchPlaceholder": "Search stores",
+    "allCategories": "All categories",
+    "allFloors": "All floors",
+    "floor": "Floor",
+    "category": "Category",
+    "hours": "Opening hours",
+    "empty": "No stores found. Try clearing the filters.",
+    "clearFilters": "Clear filters",
+    "back": "Back to stores"
+  },
+  "events": {
+    "title": "Events and promotions",
+    "nowOn": "Now on",
+    "comingSoon": "Coming soon",
+    "empty": "Nothing here right now.",
+    "dates": "{{start}} to {{end}}"
+  },
+  "chat": {
+    "title": "Ask Mall Assistant",
+    "greeting": "Hi! Ask me where a store is or what promotions are on.",
+    "placeholder": "Ask about stores or promotions",
+    "send": "Send",
+    "open": "Open chat",
+    "close": "Close chat",
+    "unavailable": "The assistant is unavailable right now.",
+    "tooManyRequests": "Too many questions. Please wait a minute."
+  },
+  "auth": {
+    "title": "Staff login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "invalid": "Wrong email or password.",
+    "tooManyAttempts": "Too many attempts. Try again in a minute."
+  },
+  "admin": {
+    "stores": "Manage stores",
+    "events": "Manage events",
+    "name": "Name",
+    "dates": "Dates",
+    "actions": "Actions",
+    "delete": "Delete",
+    "confirmDelete": "Delete this item?",
+    "cancel": "Cancel"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "topSearches": "Most searched stores",
+    "perDay": "Searches per day",
+    "searches": "Searches",
+    "date": "Date",
+    "empty": "No data yet."
+  },
+  "pagination": {
+    "label": "Pagination",
+    "previous": "Previous",
+    "next": "Next",
+    "pageOf": "Page {{page}} of {{total}}"
+  }
+}
