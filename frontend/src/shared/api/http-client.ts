@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios'
 import { env } from '../config/env'
 import { camelizeKeys, snakeizeKeys } from '../lib/case-conversion'
 import { tokenStorage } from '../lib/token-storage'
+import type { ApiErrorResponse } from './api-response'
 
 type UnauthorizedHandler = () => void
 
@@ -43,3 +44,14 @@ httpClient.interceptors.response.use(
 
 export const apiErrorStatus = (error: unknown): number | null =>
   axios.isAxiosError(error) ? (error.response?.status ?? null) : null
+
+export const apiErrorMessages = (error: unknown): string[] => {
+  if (!axios.isAxiosError<Partial<ApiErrorResponse>>(error)) {
+    return []
+  }
+  const message = error.response?.data?.message
+  if (message === undefined) {
+    return []
+  }
+  return Array.isArray(message) ? message : [message]
+}

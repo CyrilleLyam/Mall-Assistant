@@ -1,4 +1,5 @@
 import '@fontsource-variable/noto-sans-khmer'
+import '@fontsource-variable/open-sans'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router-dom'

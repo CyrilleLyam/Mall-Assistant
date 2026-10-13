@@ -3,8 +3,11 @@ import { UserOrmEntity } from '../../../modules/identity/infrastructure/persiste
 import { CategoryOrmEntity } from '../../../modules/tenants/infrastructure/persistence/category.orm-entity.js';
 import { TenantOrmEntity } from '../../../modules/tenants/infrastructure/persistence/tenant.orm-entity.js';
 import { MallEventOrmEntity } from '../../../modules/events/infrastructure/persistence/mall-event.orm-entity.js';
+import { SearchLogOrmEntity } from '../../../modules/analytics/infrastructure/persistence/search-log.orm-entity.js';
+import { SearchQueryOrmEntity } from '../../../modules/analytics/infrastructure/persistence/search-query.orm-entity.js';
 import { newId } from '../../domain/id.js';
 import dataSource from './data-source.js';
+import { buildSampleSearchHistory } from './seeds/sample-search-history.js';
 
 const CATEGORIES = [
   { nameEn: 'Fashion', nameKm: 'ម៉ូដ' },
@@ -328,6 +331,41 @@ async function seed(): Promise<void> {
           startDate: event.startDate,
           endDate: event.endDate,
         });
+      }
+    }
+
+    if (process.env.SEED_SAMPLE_SEARCH_HISTORY !== 'false') {
+      const queriesRepo = dataSource.getRepository(SearchQueryOrmEntity);
+      const logsRepo = dataSource.getRepository(SearchLogOrmEntity);
+      const hasHistory = (await queriesRepo.count()) > 0 || (await logsRepo.count()) > 0;
+
+      if (hasHistory) {
+        console.log('Search history already exists, skipping the sample search history.');
+      } else {
+        const tenants = await tenantsRepo.find({
+          select: { id: true, nameEn: true, nameKm: true },
+        });
+        const history = buildSampleSearchHistory({ now: new Date(), tenants });
+
+        await queriesRepo.insert(
+          history.queries.map((query) => ({
+            id: newId(),
+            term: query.term,
+            resultCount: query.resultCount,
+            createdAt: query.createdAt,
+          })),
+        );
+        await logsRepo.insert(
+          history.storeViews.map((view) => ({
+            id: newId(),
+            tenantId: view.tenantId,
+            query: view.query,
+            createdAt: view.createdAt,
+          })),
+        );
+        console.log(
+          `Added ${history.queries.length} sample searches and ${history.storeViews.length} sample store views.`,
+        );
       }
     }
 

@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
@@ -24,62 +24,82 @@ interface StoreFiltersProps {
   floors: number[]
   onChange: (values: StoreFilterValues) => void
   onClear: () => void
+  onSearchSubmit?: () => void
 }
 
 const ALL = 'all'
 
-export function StoreFilters({ values, categories, floors, onChange, onClear }: StoreFiltersProps) {
+export function StoreFilters({
+  values,
+  categories,
+  floors,
+  onChange,
+  onClear,
+  onSearchSubmit,
+}: StoreFiltersProps) {
   const { t } = useTranslation()
   const localized = useLocalized()
+  const hasFilters = values.search !== '' || values.categoryId !== '' || values.floor !== ''
 
   return (
     <form
-      className="grid gap-3 sm:grid-cols-[1fr_auto_auto_auto]"
-      onSubmit={(event) => event.preventDefault()}
+      className="space-y-3"
+      onSubmit={(event) => {
+        event.preventDefault()
+        onSearchSubmit?.()
+      }}
     >
-      <Input
-        type="search"
-        value={values.search}
-        placeholder={t('stores.searchPlaceholder')}
-        aria-label={t('stores.searchPlaceholder')}
-        onChange={(event) => onChange({ ...values, search: event.target.value })}
-      />
-      <Select
-        value={values.categoryId || ALL}
-        onValueChange={(value) => onChange({ ...values, categoryId: value === ALL ? '' : value })}
-      >
-        <SelectTrigger aria-label={t('stores.category')} className="w-full sm:w-48">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={ALL}>{t('stores.allCategories')}</SelectItem>
-          {categories.map((category) => (
-            <SelectItem key={category.id} value={category.id}>
-              {localized(category.nameEn, category.nameKm)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Select
-        value={values.floor || ALL}
-        onValueChange={(value) => onChange({ ...values, floor: value === ALL ? '' : value })}
-      >
-        <SelectTrigger aria-label={t('stores.floor')} className="w-full sm:w-36">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={ALL}>{t('stores.allFloors')}</SelectItem>
-          {floors.map((floor) => (
-            <SelectItem key={floor} value={String(floor)}>
-              {t('stores.floor')} {floor}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      <Button type="button" variant="ghost" onClick={onClear}>
-        <X />
-        {t('stores.clearFilters')}
-      </Button>
+      <div className="relative">
+        <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          type="search"
+          value={values.search}
+          placeholder={t('stores.searchPlaceholder')}
+          aria-label={t('stores.searchPlaceholder')}
+          className="h-12 rounded-xl bg-background pl-12 text-base shadow-sm"
+          onChange={(event) => onChange({ ...values, search: event.target.value })}
+        />
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Select
+          value={values.categoryId || ALL}
+          onValueChange={(value) => onChange({ ...values, categoryId: value === ALL ? '' : value })}
+        >
+          <SelectTrigger aria-label={t('stores.category')} className="h-9 w-auto min-w-40 bg-background">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL}>{t('stores.allCategories')}</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+                {localized(category.nameEn, category.nameKm)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select
+          value={values.floor || ALL}
+          onValueChange={(value) => onChange({ ...values, floor: value === ALL ? '' : value })}
+        >
+          <SelectTrigger aria-label={t('stores.floor')} className="h-9 w-auto min-w-36 bg-background">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL}>{t('stores.allFloors')}</SelectItem>
+            {floors.map((floor) => (
+              <SelectItem key={floor} value={String(floor)}>
+                {t('stores.floor')} {floor}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {hasFilters && (
+          <Button type="button" variant="ghost" size="sm" onClick={onClear}>
+            <X />
+            {t('stores.clearFilters')}
+          </Button>
+        )}
+      </div>
     </form>
   )
 }

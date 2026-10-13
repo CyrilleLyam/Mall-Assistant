@@ -9,8 +9,10 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiNoContentResponse, ApiTags } from '@nestjs/swagger';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { PagedResult } from '../../../../shared/presentation/http/api-response.js';
 import { ApiEnvelopeResponse } from '../../../../shared/presentation/http/api-envelope-response.decorator.js';
 import { AdminOnly } from '../../../identity/presentation/decorators/admin-only.decorator.js';
@@ -19,11 +21,13 @@ import { DeleteTenantUseCase } from '../../application/use-cases/delete-tenant.u
 import { GetTenantUseCase } from '../../application/use-cases/get-tenant.use-case.js';
 import { ListFloorsUseCase } from '../../application/use-cases/list-floors.use-case.js';
 import { SearchTenantsUseCase } from '../../application/use-cases/search-tenants.use-case.js';
+import { TrackSearchUseCase } from '../../application/use-cases/track-search.use-case.js';
 import { UpdateTenantUseCase } from '../../application/use-cases/update-tenant.use-case.js';
 import { CreateTenantDto } from './dto/create-tenant.dto.js';
 import { GetTenantQuery } from './dto/get-tenant.query.js';
 import { SearchTenantsQuery } from './dto/search-tenants.query.js';
 import { TenantResponse } from './dto/tenant.response.js';
+import { TrackSearchDto } from './dto/track-search.dto.js';
 import { UpdateTenantDto } from './dto/update-tenant.dto.js';
 
 @ApiTags('tenants')
@@ -32,6 +36,7 @@ export class TenantsController {
   constructor(
     private readonly searchTenants: SearchTenantsUseCase,
     private readonly listFloors: ListFloorsUseCase,
+    private readonly trackSearch: TrackSearchUseCase,
     private readonly getTenant: GetTenantUseCase,
     private readonly createTenant: CreateTenantUseCase,
     private readonly updateTenant: UpdateTenantUseCase,
@@ -49,6 +54,15 @@ export class TenantsController {
       pageSize: query.pageSize,
     });
     return PagedResult.from(page, (tenant) => TenantResponse.from(tenant));
+  }
+
+  @Post('searches')
+  @HttpCode(204)
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
+  @ApiNoContentResponse()
+  async recordSearch(@Body() body: TrackSearchDto): Promise<void> {
+    await this.trackSearch.execute({ term: body.query });
   }
 
   @Get('floors')

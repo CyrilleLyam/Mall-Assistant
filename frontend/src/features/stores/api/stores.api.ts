@@ -6,7 +6,7 @@ import {
   type Paged,
   type PageParams,
 } from '@/shared/api/api-response'
-import type { Category, Store, StoreSearchParams } from '../types'
+import type { Category, Store, StoreInput, StoreSearchParams } from '../types'
 
 export const storesApi = {
   search(params: StoreSearchParams & PageParams): Promise<Paged<Store>> {
@@ -19,8 +19,20 @@ export const storesApi = {
     )
   },
 
+  create(input: StoreInput): Promise<Store> {
+    return unwrap(httpClient.post<ApiResponse<Store>>('/tenants', input))
+  },
+
+  update(id: string, input: StoreInput): Promise<Store> {
+    return unwrap(httpClient.patch<ApiResponse<Store>>(`/tenants/${id}`, input))
+  },
+
   async remove(id: string): Promise<void> {
     await httpClient.delete(`/tenants/${id}`)
+  },
+
+  async trackSearch(query: string): Promise<void> {
+    await httpClient.post('/tenants/searches', { query })
   },
 
   listCategories(): Promise<Category[]> {

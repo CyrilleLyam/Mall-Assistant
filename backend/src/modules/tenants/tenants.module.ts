@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnalyticsModule } from '../analytics/analytics.module.js';
+import { SearchQueryRecorder } from './application/ports/search-query-recorder.js';
 import { SearchRecorder } from './application/ports/search-recorder.js';
 import { CreateTenantUseCase } from './application/use-cases/create-tenant.use-case.js';
 import { DeleteTenantUseCase } from './application/use-cases/delete-tenant.use-case.js';
@@ -8,9 +9,11 @@ import { GetTenantUseCase } from './application/use-cases/get-tenant.use-case.js
 import { ListCategoriesUseCase } from './application/use-cases/list-categories.use-case.js';
 import { ListFloorsUseCase } from './application/use-cases/list-floors.use-case.js';
 import { SearchTenantsUseCase } from './application/use-cases/search-tenants.use-case.js';
+import { TrackSearchUseCase } from './application/use-cases/track-search.use-case.js';
 import { UpdateTenantUseCase } from './application/use-cases/update-tenant.use-case.js';
 import { CategoryRepository } from './domain/category.repository.js';
 import { TenantRepository } from './domain/tenant.repository.js';
+import { AnalyticsSearchQueryRecorder } from './infrastructure/adapters/analytics-search-query-recorder.js';
 import { AnalyticsSearchRecorder } from './infrastructure/adapters/analytics-search-recorder.js';
 import { CategoryOrmEntity } from './infrastructure/persistence/category.orm-entity.js';
 import { TenantOrmEntity } from './infrastructure/persistence/tenant.orm-entity.js';
@@ -33,9 +36,11 @@ import { TenantsController } from './presentation/http/tenants.controller.js';
     DeleteTenantUseCase,
     ListCategoriesUseCase,
     ListFloorsUseCase,
+    TrackSearchUseCase,
     { provide: TenantRepository, useClass: TypeOrmTenantRepository },
     { provide: CategoryRepository, useClass: TypeOrmCategoryRepository },
     { provide: SearchRecorder, useClass: AnalyticsSearchRecorder },
+    { provide: SearchQueryRecorder, useClass: AnalyticsSearchQueryRecorder },
   ],
   exports: [TenantRepository, CategoryRepository],
 })

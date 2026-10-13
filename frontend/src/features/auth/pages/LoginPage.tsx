@@ -1,10 +1,17 @@
+import { Loader2, LockKeyhole } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { apiErrorStatus } from '@/shared/api/http-client'
 import { Alert, AlertDescription } from '@/shared/components/ui/alert'
 import { Button } from '@/shared/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
 import { useAuth } from '../hooks/useAuth'
@@ -43,44 +50,54 @@ export function LoginPage() {
   }
 
   return (
-    <Card className="mx-auto max-w-sm">
-      <CardHeader>
-        <CardTitle className="text-xl">{t('auth.title')}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={submit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('auth.email')}</Label>
-            <Input
-              id="email"
-              type="email"
-              required
-              autoComplete="username"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">{t('auth.password')}</Label>
-            <Input
-              id="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </div>
-          {errorKey && (
-            <Alert variant="destructive">
-              <AlertDescription>{t(errorKey)}</AlertDescription>
-            </Alert>
-          )}
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {t('auth.submit')}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <div className="relative mx-auto max-w-md pt-6">
+      <div className="pointer-events-none absolute inset-x-0 -top-10 -z-10 mx-auto h-64 max-w-sm rounded-full bg-primary/15 blur-3xl" />
+      <Card className="shadow-xl">
+        <CardHeader className="justify-items-center gap-3 text-center">
+          <span className="grid size-14 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-md">
+            <LockKeyhole className="size-7" />
+          </span>
+          <CardTitle className="text-2xl">{t('auth.title')}</CardTitle>
+          <CardDescription>{t('auth.subtitle')}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={submit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">{t('auth.email')}</Label>
+              <Input
+                id="email"
+                type="email"
+                required
+                autoComplete="username"
+                className="h-10"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">{t('auth.password')}</Label>
+              <Input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                className="h-10"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
+            {errorKey && (
+              <Alert variant="destructive">
+                <AlertDescription>{t(errorKey)}</AlertDescription>
+              </Alert>
+            )}
+            <Button type="submit" size="lg" disabled={isSubmitting} className="h-10 w-full">
+              {isSubmitting && <Loader2 className="animate-spin" />}
+              {t('auth.submit')}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   )
 }

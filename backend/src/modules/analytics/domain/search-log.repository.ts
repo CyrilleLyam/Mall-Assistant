@@ -7,13 +7,7 @@ export interface TopSearch {
   searches: number;
 }
 
-export interface DailySearchCount {
-  date: string;
-  searches: number;
-}
-
 export abstract class SearchLogRepository {
   abstract save(log: SearchLog): Promise<void>;
   abstract topSearches(limit: number, since: Date): Promise<TopSearch[]>;
-  abstract searchesPerDay(since: Date): Promise<DailySearchCount[]>;
 }

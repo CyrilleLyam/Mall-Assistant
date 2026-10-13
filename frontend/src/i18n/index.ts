@@ -2,8 +2,8 @@ import i18n from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import { cookies } from '@/shared/lib/cookies'
-import en from './locales/en.json'
-import km from './locales/km.json'
+import { en } from './locales/en'
+import { km } from './locales/km'
 
 const LANGUAGE_COOKIE = 'language'
 const LANGUAGE_COOKIE_DAYS = 365

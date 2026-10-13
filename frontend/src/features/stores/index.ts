@@ -1,4 +1,6 @@
+export { StoreAvatar } from './components/StoreAvatar'
 export { StoreDetailPage } from './pages/StoreDetailPage'
 export { StoresPage } from './pages/StoresPage'
-export { useDeleteStore, useStoreSearch } from './hooks/useStores'
-export type { Category, Store, StoreSearchParams } from './types'
+export { useCategories, useStore, useStoreSearch } from './hooks/useStores'
+export { categoryTone } from './lib/category-tone'
+export type { Category, Store, StoreInput, StoreSearchParams } from './types'

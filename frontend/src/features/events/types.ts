@@ -10,3 +10,5 @@ export interface MallEvent {
   endDate: string
   status: EventStatus
 }
+
+export type EventInput = Omit<MallEvent, 'id' | 'status'>

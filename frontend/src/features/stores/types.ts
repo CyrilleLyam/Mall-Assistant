@@ -10,6 +10,8 @@ export interface Store {
   categoryId: string
 }
 
+export type StoreInput = Omit<Store, 'id'>
+
 export interface Category {
   id: string
   nameEn: string
